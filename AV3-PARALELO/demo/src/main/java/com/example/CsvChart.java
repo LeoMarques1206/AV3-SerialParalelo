@@ -36,7 +36,7 @@ public class CsvChart extends JFrame {
 
     private CategoryDataset createDataset() {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-
+    
         String[] csvFiles = {"cpu_paralelo_csv.csv", "cpu_serial_csv.csv", "gpu_paralelo_csv.csv"};
         for (String csvFile : csvFiles) {
             try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
@@ -48,21 +48,28 @@ public class CsvChart extends JFrame {
                         continue; 
                     }
                     String[] fields = line.split(",");
+                    
+                    // Verifique se a linha tem o número esperado de colunas
+                    if (fields.length < 4) {
+                        System.err.println("Linha inválida no arquivo " + csvFile + ": " + line);
+                        continue;
+                    }
+                    
                     String metodo = fields[0];
                     String palavra = fields[1];
                     int count = Integer.parseInt(fields[2]);
                     long tempo = Long.parseLong(fields[3]);
-
+    
                     dataset.addValue(tempo, metodo, palavra);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-
+    
         return dataset;
     }
-
+    
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             CsvChart example = new CsvChart("Comparação de Performance");

@@ -44,6 +44,8 @@ public class GpuParalela {
         int count = parallelGPU(filePath, palavra);
         long endTime = System.currentTimeMillis();
 
+        System.out.println("--- GPU PARALELA ---");
+        System.out.println("Palavra: " +palavra);
         System.out.println("Contagem: " + count);
         System.out.println("Tempo de execução: " + (endTime - startTime) + "ms");
 
